@@ -3,7 +3,6 @@ import { useLoaderData } from "react-router-dom";
 import { Box, Input, Text, VStack } from "@chakra-ui/react";
 import { getAllRecipes } from "~/api/recipe";
 import HeadingSmall from "~/components/HeadingSmall";
-import Layout from "~/components/Layout";
 import RecipeCard from "~/components/RecipeCard";
 import { filteredRecipes } from "~/libs/filteredRecipes";
 import { LoaderData } from "~/types";
@@ -23,7 +22,7 @@ const RecipeList: FC = () => {
 
   const AllRecipes = () => (
     <>
-      <HeadingSmall>{`登録されているレシピ：${recipes.length}件`}</HeadingSmall>
+      <HeadingSmall>{`すべてのレシピ：${recipes.length}件`}</HeadingSmall>
       <VStack as="ul" alignItems="stretch">
         {recipes.map((recipe) => (
           <Box key={recipe.id} as="li">
@@ -35,7 +34,7 @@ const RecipeList: FC = () => {
   );
 
   return (
-    <Layout>
+    <>
       <Input
         value={keyword}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -63,7 +62,7 @@ const RecipeList: FC = () => {
           <AllRecipes />
         )}
       </VStack>
-    </Layout>
+    </>
   );
 };
 

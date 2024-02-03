@@ -3,7 +3,6 @@ import { FC } from "react";
 import { Params, useLoaderData } from "react-router-dom";
 import { getRecipe } from "~/api/recipe";
 import HeadingSmall from "~/components/HeadingSmall";
-import Layout from "~/components/Layout";
 import { LoaderData } from "~/types";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -17,13 +16,13 @@ const Recipe: FC = () => {
   const { recipe } = useLoaderData() as LoaderData<typeof loader>;
 
   return (
-    <Layout>
+    <>
+      {recipe.image && (
+        <Center w="calc(100% + 16px * 2)" h="240px" m="-16px -16px 0">
+          <Image src={recipe.image.url} w="100%" h="100%" objectFit="cover" />
+        </Center>
+      )}
       <VStack alignItems="stretch" gap="16px" p="0">
-        {recipe.image && (
-          <Center w="calc(100% + 16px * 2)" h="240px" m="0 -16px">
-            <Image src={recipe.image.url} w="100%" h="100%" objectFit="cover" />
-          </Center>
-        )}
         <Heading as="h2" fontWeight="bold" fontSize="20px">
           {recipe.title}
         </Heading>
@@ -66,7 +65,7 @@ const Recipe: FC = () => {
           </VStack>
         </VStack>
       </VStack>
-    </Layout>
+    </>
   );
 };
 

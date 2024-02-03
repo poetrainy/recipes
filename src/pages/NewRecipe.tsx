@@ -19,7 +19,6 @@ import {
 } from "react-router-dom";
 import { saveRecipe } from "~/api/recipe";
 import HeadingSmall from "~/components/HeadingSmall";
-import Layout from "~/components/Layout";
 import {
   RecipeGenreType,
   RecipeIngredientType,
@@ -126,7 +125,7 @@ const NewRecipe: FC = () => {
   };
 
   return (
-    <Layout>
+    <>
       <Heading as="h2" fontSize="20px">
         新規レシピ
       </Heading>
@@ -264,7 +263,7 @@ const NewRecipe: FC = () => {
           この内容で登録する
         </Button>
       </VStack>
-    </Layout>
+    </>
   );
 };
 
