@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import RecipeList, { loader as loaderRecipeList } from "~/pages/RecipeList";
 import Recipe, { loader as loaderRecipe } from "~/pages/Recipe";
-import RegisterRecipe, { action as actionRecipeRegister }  from "~/pages/RegisterRecipe";
+import NewRecipe, { action as actionRecipeRegister } from "~/pages/NewRecipe";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -14,7 +14,11 @@ const App = () => {
       <>
         <Route path="/" element={<RecipeList />} loader={loaderRecipeList} />
         <Route path="/:id" element={<Recipe />} loader={loaderRecipe} />
-        <Route path="/register" element={<RegisterRecipe />} action={actionRecipeRegister} />
+        <Route
+          path="/new"
+          element={<NewRecipe />}
+          action={actionRecipeRegister}
+        />
       </>
     )
   );
