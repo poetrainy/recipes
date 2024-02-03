@@ -1,5 +1,9 @@
 import { client } from "~/libs/client";
-import { RecipeBeforePerseType, RecipeType } from "~/types/MicroCMS";
+import {
+  RecipeBeforePerseType,
+  RecipeSaveType,
+  RecipeType,
+} from "~/types/MicroCMS";
 
 export const getAllRecipes: () => Promise<RecipeType[]> = async () => {
   const result = (
@@ -17,7 +21,7 @@ export const getAllRecipes: () => Promise<RecipeType[]> = async () => {
       ...recipe,
       ingredients: JSON.parse(recipe.ingredients),
       steps: JSON.parse(recipe.steps),
-      keywords: JSON.parse(recipe.keywords),
+      keywords: recipe.keywords ? JSON.parse(recipe.keywords) : undefined,
     };
   }) as RecipeType[];
 
@@ -35,8 +39,15 @@ export const getRecipe: (recipeId: string) => Promise<RecipeType> = async (
     ...result,
     ingredients: JSON.parse(result.ingredients),
     steps: JSON.parse(result.steps),
-    keywords: JSON.parse(result.keywords),
+    keywords: result.keywords ? JSON.parse(result.keywords) : undefined,
   } as RecipeType;
 
   return parsedResult;
+};
+
+export const saveRecipe: (content: RecipeSaveType) => Promise<void> = async (content: RecipeSaveType) => {
+  await client.create({
+    endpoint: "recipes",
+    content: content,
+  });
 };

@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Box, Input, Text, VStack } from "@chakra-ui/react";
-import { getAllRecipes } from "~/api/microCMS";
+import { getAllRecipes } from "~/api/recipe";
 import HeadingSmall from "~/components/HeadingSmall";
 import Layout from "~/components/Layout";
 import RecipeCard from "~/components/RecipeCard";

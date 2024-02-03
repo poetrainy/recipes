@@ -6,13 +6,23 @@ export type MicroCMSType = {
   revisedAt: string;
 };
 
+export type RecipeSaveType = {
+  title: string;
+  genre: ("ごはん" | "おかし")[];
+  quantity?: string;
+  ingredients: RecipeIngredientType[];
+  steps: RecipeStepType[];
+  keywords?: string[];
+};
+
 export type RecipeType = MicroCMSType & {
   title: string;
   genre: ("ごはん" | "おかし")[];
+  quantity?: string;
   ingredients: RecipeIngredientType[];
   steps: RecipeStepType[];
   image?: { url: string; width: number; height: number };
-  keywords: string[];
+  keywords?: string[];
 };
 
 export type RecipeBeforePerseType = MicroCMSType & {
@@ -21,7 +31,7 @@ export type RecipeBeforePerseType = MicroCMSType & {
   ingredients: string;
   steps: string;
   image?: { url: string; width: number; height: number };
-  keywords: string;
+  keywords?: string;
 };
 
 export type RecipeIngredientType = {

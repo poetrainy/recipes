@@ -8,7 +8,7 @@ export const filteredRecipes: (
     const joinedKeyword: string =
       recipe.title +
       recipe.ingredients.map((ingredient) => ingredient.ingredient).join("") +
-      recipe.keywords.join("");
+      recipe.keywords?.join("");
 
     return {
       recipe: recipe,
