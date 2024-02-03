@@ -2,6 +2,7 @@ import { Center, Flex, Heading, Text, VStack } from "@chakra-ui/react";
 import { FC } from "react";
 import { Params, useLoaderData } from "react-router-dom";
 import { getRecipe } from "~/api/microCMS";
+import Layout from "~/components/Layout";
 import { LoaderData } from "~/types";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -15,7 +16,7 @@ const Recipe: FC = () => {
   const { recipe } = useLoaderData() as LoaderData<typeof loader>;
 
   return (
-    <VStack alignItems="stretch" gap="24px" p="24px 16px">
+    <Layout>
       <Heading as="h2" fontWeight="bold" fontSize="20px">
         {recipe.title}
       </Heading>
@@ -59,7 +60,7 @@ const Recipe: FC = () => {
           ))}
         </VStack>
       </VStack>
-    </VStack>
+    </Layout>
   );
 };
 

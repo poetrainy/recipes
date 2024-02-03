@@ -1,7 +1,8 @@
-import { Center, VStack } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import { FC } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { getAllRecipes } from "~/api/microCMS";
+import Layout from "~/components/Layout";
 import { LoaderData } from "~/types";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -15,13 +16,13 @@ const RecipeList: FC = () => {
   const { recipes } = useLoaderData() as LoaderData<typeof loader>;
 
   return (
-    <VStack alignItems="stretch" gap="24px" p="24px 16px">
+    <Layout>
       {recipes.map((recipe) => (
         <Center key={recipe.id} as={Link} to={`/${recipe.id}`}>
           {recipe.title}
         </Center>
       ))}
-    </VStack>
+    </Layout>
   );
 };
 
