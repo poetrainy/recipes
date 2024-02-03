@@ -12,6 +12,7 @@ export type RecipeType = MicroCMSType & {
   ingredients: RecipeIngredientType[];
   steps: RecipeStepType[];
   image?: { url: string; width: number; height: number };
+  keywords: string[];
 };
 
 export type RecipeBeforePerseType = MicroCMSType & {
@@ -20,6 +21,7 @@ export type RecipeBeforePerseType = MicroCMSType & {
   ingredients: string;
   steps: string;
   image?: { url: string; width: number; height: number };
+  keywords: string;
 };
 
 export type RecipeIngredientType = {
