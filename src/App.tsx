@@ -4,13 +4,17 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Home from "~/pages/Home";
+import RecipeList, { loader as loaderRecipeList } from "~/pages/RecipeList";
+import Recipe, { loader as loaderRecipe } from "~/pages/Recipe";
+import RegisterRecipe, { action as actionRecipeRegister }  from "~/pages/RegisterRecipe";
 
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<RecipeList />} loader={loaderRecipeList} />
+        <Route path="/:id" element={<Recipe />} loader={loaderRecipe} />
+        <Route path="/register" element={<RegisterRecipe />} action={actionRecipeRegister} />
       </>
     )
   );

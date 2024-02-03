@@ -1,19 +1,12 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const colors = {
-  sub: "#4a5566",
-  red: "#ff5d3d",
-  yellow: "#ffab2e",
-  blue: "#5e8aeb",
 };
 const styles = {
   global: {
-    html: {
-      fontSize: "62.5%",
-    },
     body: {
       color: "black",
-      fontSize: "1.4rem",
+      fontSize: "14px",
       fontFamily: "body",
       a: {
         textDecoration: "none",
@@ -37,12 +30,6 @@ const styles = {
 const fonts = {
   body: "'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif",
 };
-const breakpoints = {
-  sm: "500px",
-  md: "640px",
-  lg: "820px",
-  // example
-};
 const textStyles = {
   bodyWidth: {
     width: {
@@ -58,7 +45,6 @@ const theme = extendTheme({
   colors,
   fonts,
   textStyles,
-  breakpoints,
 });
 
 export default theme;
