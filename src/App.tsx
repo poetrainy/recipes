@@ -6,7 +6,11 @@ import {
 } from "react-router-dom";
 import RecipeList, { loader as loaderRecipeList } from "~/pages/RecipeList";
 import Recipe, { loader as loaderRecipe } from "~/pages/Recipe";
-import NewRecipe, { action as actionRecipeRegister } from "~/pages/NewRecipe";
+import EditRecipe, {
+  loader as loaderEditRecipe,
+  action as actionEditRecipe,
+} from "~/pages/EditRecipe";
+import NewRecipe, { action as actionNewRecipe } from "~/pages/NewRecipe";
 import Root from "~/pages/Root";
 import "~/style/index.css";
 
@@ -17,9 +21,15 @@ const App = () => {
         <Route path="/" element={<RecipeList />} loader={loaderRecipeList} />
         <Route path="/recipes/:id" element={<Recipe />} loader={loaderRecipe} />
         <Route
+          path="/recipes/:id/edit"
+          element={<EditRecipe />}
+          loader={loaderEditRecipe}
+          action={actionEditRecipe}
+        />
+        <Route
           path="/recipes/new"
           element={<NewRecipe />}
-          action={actionRecipeRegister}
+          action={actionNewRecipe}
         />
       </Route>
     )

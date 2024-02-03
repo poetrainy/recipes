@@ -1,23 +1,34 @@
-import { Button, Text, VStack, useToast } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { useState } from "react";
 import {
+  Params,
   ActionFunctionArgs,
-  useActionData,
-  useLocation,
-  useNavigate,
   useSubmit,
+  useNavigate,
+  useLocation,
+  useActionData,
+  useLoaderData,
 } from "react-router-dom";
-import { saveRecipe } from "~/api/recipe";
+import { useToast, VStack, Button, Text } from "@chakra-ui/react";
+import { getRecipe, updateRecipe } from "~/api/recipe";
 import RecipeForm from "~/components/RecipeForm";
 import { RecipeSaveType } from "~/types/Recipe";
+import { LoaderData } from "~/types";
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const loader = async ({ params }: { params: Params<string> }) => {
+  const recipe = await getRecipe(params.id!);
+
+  return { recipe };
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const action = async ({ params, request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const content = formData.get("content") as string;
+  const recipeId = params.id!;
 
   try {
-    await saveRecipe(JSON.parse(content) as RecipeSaveType);
+    await updateRecipe(recipeId, JSON.parse(content) as RecipeSaveType);
 
     return {
       status: 201,
@@ -31,12 +42,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 };
 
-const NewRecipe: FC = () => {
+const EditRecipe = () => {
   const submit = useSubmit();
   const navigate = useNavigate();
   const location = useLocation();
   const toast = useToast();
 
+  const { recipe } = useLoaderData() as LoaderData<typeof loader>;
   const data = useActionData() as { status: 201 | 500 } | undefined;
 
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
@@ -45,7 +57,7 @@ const NewRecipe: FC = () => {
 
   if (data?.status === 201 && !prevActionData) {
     toast({
-      title: "レシピを登録しました（反映には数分かかります）",
+      title: "レシピを編集しました（反映には数分かかります）",
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -55,7 +67,7 @@ const NewRecipe: FC = () => {
     navigate("/");
   } else if (data?.status === 500 && !prevActionData) {
     toast({
-      title: "レシピを登録できませんでした",
+      title: "レシピを編集できませんでした",
       status: "error",
       duration: 3000,
       isClosable: true,
@@ -66,7 +78,7 @@ const NewRecipe: FC = () => {
   const onSaveRecipe = (saveRecipe: RecipeSaveType) => {
     submit(
       {
-        intent: "save",
+        intent: "edit",
         content: JSON.stringify(saveRecipe),
       },
       {
@@ -79,6 +91,7 @@ const NewRecipe: FC = () => {
   return (
     <>
       <RecipeForm
+        recipe={recipe}
         onInvalid={(value) => setIsInvalid(value)}
         onSave={(saveRecipe) => onSaveRecipe(saveRecipe)}
         actionCount={actionCount}
@@ -90,11 +103,11 @@ const NewRecipe: FC = () => {
           </Text>
         )}
         <Button onClick={() => setActionCount((p) => p + 1)} fontSize="14px">
-          この内容で登録する
+          この内容で編集する
         </Button>
       </VStack>
     </>
   );
 };
 
-export default NewRecipe;
+export default EditRecipe;

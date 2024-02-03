@@ -56,3 +56,19 @@ export const saveRecipe: (
 
   return response;
 };
+
+export const updateRecipe: (
+  id: string,
+  content: RecipeSaveType
+) => Promise<WriteApiRequestResult> = async (
+  id: string,
+  content: RecipeSaveType
+) => {
+  const response = await client.update({
+    endpoint: "recipes",
+    contentId: id,
+    content: content,
+  });
+
+  return response;
+};

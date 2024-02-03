@@ -1,6 +1,15 @@
-import { Center, Flex, Heading, Image, Text, VStack } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
+import {
+  Center,
+  Flex,
+  Heading,
+  Image,
+  Link as ChakraUILink,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { FC } from "react";
-import { Params, useLoaderData } from "react-router-dom";
+import { Link as RouterLink, Params, useLoaderData } from "react-router-dom";
 import { getRecipe } from "~/api/recipe";
 import HeadingSmall from "~/components/HeadingSmall";
 import { LoaderData } from "~/types";
@@ -14,6 +23,7 @@ export const loader = async ({ params }: { params: Params<string> }) => {
 
 const Recipe: FC = () => {
   const { recipe } = useLoaderData() as LoaderData<typeof loader>;
+  const recipeId = recipe.id;
 
   return (
     <>
@@ -23,9 +33,18 @@ const Recipe: FC = () => {
         </Center>
       )}
       <VStack alignItems="stretch" gap="16px" p="0">
-        <Heading as="h2" fontWeight="bold" fontSize="20px">
-          {recipe.title}
-        </Heading>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Heading as="h2" fontWeight="bold" fontSize="20px">
+            {recipe.title}
+          </Heading>
+          <ChakraUILink
+            as={RouterLink}
+            to={`/recipes/${recipeId}/edit`}
+            mb="2px"
+          >
+            <EditIcon color="gray.500" boxSize="20px" />
+          </ChakraUILink>
+        </Flex>
         <VStack alignItems="stretch" gap="0" bg="gray.50" rounded="12px">
           <Center
             as="h3"
