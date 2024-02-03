@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Center, Image } from "@chakra-ui/react";
-import { RecipeType } from "~/types/MicroCMS";
+import { RecipeType } from "~/types/Recipe";
 
 const RecipeCard: FC<{ recipe: RecipeType }> = ({ recipe }) => (
   <Center

@@ -1,4 +1,4 @@
-import { RecipeType } from "~/types/MicroCMS";
+import { RecipeType } from "~/types/Recipe";
 
 export const filteredRecipes: (
   recipes: RecipeType[],
