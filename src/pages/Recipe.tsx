@@ -62,7 +62,7 @@ const Recipe: FC = () => {
             p="6px 16px"
             rounded="12px 12px 0 0"
           >
-            材料
+            {`材料${recipe.quantity ? `（${recipe.quantity}）` : ""}`}
           </Center>
           <VStack as="ul" alignItems="stretch" gap="8px" p="12px 16px">
             {recipe.ingredients.map((ingredient) => (
