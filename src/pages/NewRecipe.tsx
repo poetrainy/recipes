@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { saveRecipe } from "~/api/recipe";
 import RecipeForm from "~/components/RecipeForm";
+import { useSetOGPContext } from "~/context/useOGPContext";
 import { RecipeSaveType } from "~/types/Recipe";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -36,6 +37,8 @@ const NewRecipe: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const toast = useToast();
+
+  useSetOGPContext({ title: "レシピを登録", path: "/recipes/new" });
 
   const data = useActionData() as { status: 201 | 500 } | undefined;
 

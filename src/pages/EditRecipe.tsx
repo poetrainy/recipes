@@ -8,11 +8,12 @@ import {
   useActionData,
   useLoaderData,
 } from "react-router-dom";
-import { useToast, VStack, Button, Text } from "@chakra-ui/react";
+import { useToast, VStack, Button } from "@chakra-ui/react";
 import { getRecipe, updateRecipe } from "~/api/recipe";
 import RecipeForm from "~/components/RecipeForm";
 import { RecipeSaveType } from "~/types/Recipe";
 import { LoaderData } from "~/types";
+import { useSetOGPContext } from "~/context/useOGPContext";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader = async ({ params }: { params: Params<string> }) => {
@@ -50,6 +51,11 @@ const EditRecipe = () => {
 
   const { recipe } = useLoaderData() as LoaderData<typeof loader>;
   const data = useActionData() as { status: 201 | 500 } | undefined;
+
+  useSetOGPContext({
+    title: "レシピの編集",
+    path: `/recipes/${recipe.id}/edit`,
+  });
 
   const [isInvalid, setIsInvalid] = useState<boolean>(false);
   const [prevActionData, setPrevActionData] = useState<{ status: 201 | 500 }>();

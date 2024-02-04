@@ -12,6 +12,7 @@ import { FC } from "react";
 import { Link as RouterLink, Params, useLoaderData } from "react-router-dom";
 import { getRecipe } from "~/api/recipe";
 import HeadingSmall from "~/components/HeadingSmall";
+import { useSetOGPContext } from "~/context/useOGPContext";
 import { LoaderData } from "~/types";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -23,7 +24,11 @@ export const loader = async ({ params }: { params: Params<string> }) => {
 
 const Recipe: FC = () => {
   const { recipe } = useLoaderData() as LoaderData<typeof loader>;
-  const recipeId = recipe.id;
+
+  useSetOGPContext({
+    title: recipe.title,
+    path: `/recipes/${recipe.id}`,
+  });
 
   return (
     <>
@@ -39,7 +44,7 @@ const Recipe: FC = () => {
           </Heading>
           <ChakraUILink
             as={RouterLink}
-            to={`/recipes/${recipeId}/edit`}
+            to={`/recipes/${recipe.id}/edit`}
             mb="2px"
           >
             <EditIcon color="gray.500" boxSize="20px" />
