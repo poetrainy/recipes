@@ -9,11 +9,12 @@ const RecipeCard: FC<{ recipe: RecipeType }> = ({ recipe }) => (
     to={`/recipes/${recipe.id}`}
     justifyContent="flex-start"
     gap="8px"
-    fontSize="16px"
     fontWeight="bold"
   >
-    {recipe.image && (
+    {recipe.image ? (
       <Image src={recipe.image.url} boxSize="80px" rounded="8px" />
+    ) : (
+      <Center boxSize="80px" bg="gray.200" rounded="8px" />
     )}
     {recipe.title}
   </Center>
