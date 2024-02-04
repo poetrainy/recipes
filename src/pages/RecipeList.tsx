@@ -6,6 +6,7 @@ import HeadingSmall from "~/components/HeadingSmall";
 import RecipeCard from "~/components/RecipeCard";
 import { filteredRecipes } from "~/libs/filteredRecipes";
 import { LoaderData } from "~/types";
+import RecipeCardRegister from "~/components/RecipeCardRegister";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader = async () => {
@@ -29,6 +30,7 @@ const RecipeList: FC = () => {
             <RecipeCard recipe={recipe} />
           </Box>
         ))}
+        <RecipeCardRegister />
       </VStack>
     </>
   );
