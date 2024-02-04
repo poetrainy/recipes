@@ -4,13 +4,15 @@ import {
   useSubmit,
   useLocation,
   useLoaderData,
+  redirect,
 } from "react-router-dom";
-import { Button } from "@chakra-ui/react";
-import { getRecipe, updateRecipe } from "~/api/recipe";
+import { Button, useDisclosure } from "@chakra-ui/react";
+import { deleteRecipe, getRecipe, updateRecipe } from "~/api/recipe";
 import RecipeForm from "~/components/RecipeForm";
 import { RecipeSaveType } from "~/types/Recipe";
 import { LoaderData } from "~/types";
 import { useSetOGPContext } from "~/context/useOGPContext";
+import RecipeDeleteModal from "~/components/RecipeDeleteModal";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader = async ({ params }: { params: Params<string> }) => {
@@ -22,21 +24,39 @@ export const loader = async ({ params }: { params: Params<string> }) => {
 // eslint-disable-next-line react-refresh/only-export-components
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const content = formData.get("content") as string;
+  const intent = formData.get("intent") as string;
   const recipeId = params.id!;
 
-  try {
-    await updateRecipe(recipeId, JSON.parse(content) as RecipeSaveType);
+  switch (intent) {
+    case "update":
+      try {
+        const content = formData.get("content") as string;
+        await updateRecipe(recipeId, JSON.parse(content) as RecipeSaveType);
 
-    return {
-      status: 201,
-    };
-  } catch (e) {
-    console.error(e);
+        return {
+          status: 201,
+        };
+      } catch (e) {
+        console.error(e);
 
-    return {
-      status: 500,
-    };
+        return {
+          status: 500,
+        };
+      }
+
+    case "delete":
+      try {
+        const contentId = formData.get("contentId") as string;
+        await deleteRecipe(contentId);
+
+        return redirect("/");
+      } catch (e) {
+        console.error(e);
+
+        return {
+          status: 500,
+        };
+      }
   }
 };
 
@@ -76,11 +96,17 @@ const EditRecipe = () => {
   //   setPrevActionData(data);
   // }
 
-  const onSaveRecipe = (saveRecipe: RecipeSaveType) => {
+  const {
+    isOpen: isOpenRecipeDeleteModal,
+    onOpen: onOpenRecipeDeleteModal,
+    onClose: onCloseRecipeDeleteModal,
+  } = useDisclosure();
+
+  const onUpdateRecipe = (updateRecipe: RecipeSaveType) => {
     submit(
       {
-        intent: "edit",
-        content: JSON.stringify(saveRecipe),
+        intent: "update",
+        content: JSON.stringify(updateRecipe),
       },
       {
         method: "POST",
@@ -89,23 +115,44 @@ const EditRecipe = () => {
     );
   };
 
-  return (
-    <RecipeForm
-      recipe={recipe}
-      onClick={(saveRecipe) => onSaveRecipe(saveRecipe)}
-      optionalButton={
-        <Button
-          variant="ghost"
-          colorScheme="red"
-          h="24px"
-          p="0"
-          fontSize="14px"
-          fontWeight="normal"
-        >
-          レシピを削除する
-        </Button>
+  const onDeleteRecipe = () => {
+    submit(
+      {
+        intent: "delete",
+        contentId: recipe.id,
+      },
+      {
+        method: "DELETE",
+        action: location.pathname,
       }
-    />
+    );
+  };
+
+  return (
+    <>
+      <RecipeForm
+        recipe={recipe}
+        onClick={(updateRecipe) => onUpdateRecipe(updateRecipe)}
+        optionalButton={
+          <Button
+            variant="ghost"
+            colorScheme="red"
+            onClick={onOpenRecipeDeleteModal}
+            h="24px"
+            p="0"
+            fontSize="14px"
+            fontWeight="normal"
+          >
+            レシピを削除する
+          </Button>
+        }
+      />
+      <RecipeDeleteModal
+        isOpen={isOpenRecipeDeleteModal}
+        onClose={onCloseRecipeDeleteModal}
+        onDelete={() => onDeleteRecipe()}
+      />
+    </>
   );
 };
 

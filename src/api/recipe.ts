@@ -72,3 +72,10 @@ export const updateRecipe: (
 
   return response;
 };
+
+export const deleteRecipe = async (id: string) => {
+  await client.delete({
+    endpoint: "recipes",
+    contentId: id,
+  });
+};
