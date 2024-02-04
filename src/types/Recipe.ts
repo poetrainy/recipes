@@ -13,6 +13,7 @@ export type RecipeType = MicroCMSType & {
 export type RecipeBeforePerseType = MicroCMSType & {
   title: string;
   genre: RecipeGenreType[];
+  quantity?: string;
   ingredients: string;
   steps: string;
   image?: { url: string; width: number; height: number };
