@@ -11,11 +11,11 @@ const RecipeCard: FC<{ recipe: RecipeType }> = ({ recipe }) => (
     gap="8px"
     fontWeight="bold"
   >
-    {recipe.image ? (
-      <Image src={recipe.image.url} boxSize="80px" rounded="8px" />
-    ) : (
-      <Center boxSize="80px" bg="gray.200" rounded="8px" />
-    )}
+    <Center boxSize="80px" bg="gray.200" rounded="8px" overflow="hidden">
+      {recipe.image && (
+        <Image src={recipe.image.url} w="100%" h="100%" objectFit="cover" />
+      )}
+    </Center>
     {recipe.title}
   </Center>
 );

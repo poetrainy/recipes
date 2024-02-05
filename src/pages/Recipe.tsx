@@ -38,7 +38,7 @@ const Recipe: FC = () => {
         </Center>
       )}
       <VStack alignItems="stretch" gap="16px" p="0">
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex justifyContent="space-between" alignItems="center" gap="4px">
           <Heading as="h2" fontWeight="bold" fontSize="20px">
             {recipe.title}
           </Heading>
@@ -50,7 +50,7 @@ const Recipe: FC = () => {
             <EditIcon color="gray.500" boxSize="20px" />
           </ChakraUILink>
         </Flex>
-        <VStack alignItems="stretch" gap="0" bg="gray.50" rounded="12px">
+        <VStack alignItems="stretch" gap="0" bg="gray.50" rounded="12px" m="0 0 16px">
           <Center
             as="h3"
             display="block"
@@ -64,7 +64,7 @@ const Recipe: FC = () => {
           >
             {`材料${recipe.quantity ? `（${recipe.quantity}）` : ""}`}
           </Center>
-          <VStack as="ul" alignItems="stretch" gap="8px" p="12px 16px">
+          <VStack as="ul" alignItems="stretch" gap="12px" p="12px 16px" fontSize="13px">
             {recipe.ingredients.map((ingredient) => (
               <Flex key={ingredient.id} as="li" justifyContent="space-between">
                 <Text as="span" fontWeight="bold">
@@ -77,13 +77,13 @@ const Recipe: FC = () => {
         </VStack>
         <VStack alignItems="stretch" gap="12px">
           <HeadingSmall>手順</HeadingSmall>
-          <VStack as="ol" alignItems="stretch">
+          <VStack as="ol" alignItems="stretch" gap="20px">
             {recipe.steps.map((step) => (
-              <Flex key={step.id} as="li" gap="4px">
+              <Flex key={step.id} as="li" gap="8px" lineHeight="1.7">
                 <Text as="span" color="gray.500" fontWeight="bold">
                   {step.id}.
                 </Text>
-                <Text key={step.id}>{step.description}</Text>
+                <Text>{step.description}</Text>
               </Flex>
             ))}
           </VStack>
