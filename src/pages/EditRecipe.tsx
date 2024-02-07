@@ -33,15 +33,11 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
         const content = formData.get("content") as string;
         await updateRecipe(recipeId, JSON.parse(content) as RecipeSaveType);
 
-        return {
-          status: 201,
-        };
+        return redirect(`/recipes/${params.id}`);
       } catch (e) {
         console.error(e);
 
-        return {
-          status: 500,
-        };
+        return null;
       }
 
     case "delete":
@@ -53,9 +49,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
       } catch (e) {
         console.error(e);
 
-        return {
-          status: 500,
-        };
+        return null;
       }
   }
 };

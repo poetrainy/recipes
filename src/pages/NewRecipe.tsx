@@ -22,9 +22,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   } catch (e) {
     console.error(e);
 
-    return {
-      status: 500,
-    };
+    return null;
   }
 };
 

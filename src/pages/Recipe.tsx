@@ -59,18 +59,18 @@ const Recipe: FC = () => {
             bg="gray.100"
             fontWeight="bold"
             fontSize="12px"
-            p="6px 16px"
+            p="10px 20px"
             rounded="12px 12px 0 0"
           >
             {`材料${recipe.quantity ? `（${recipe.quantity}）` : ""}`}
           </Center>
           <VStack as="ul" alignItems="stretch" gap="12px" p="12px 16px" fontSize="13px">
             {recipe.ingredients.map((ingredient) => (
-              <Flex key={ingredient.id} as="li" justifyContent="space-between">
-                <Text as="span" fontWeight="bold">
+              <Flex key={ingredient.id} as="li" justifyContent="space-between" gap="8px">
+                <Text as="span" color="gray.700" fontWeight="bold">
                   {ingredient.ingredient}
                 </Text>
-                <Text as="span">{ingredient.quantity}</Text>
+                <Text as="span" flex="none">{ingredient.quantity}</Text>
               </Flex>
             ))}
           </VStack>
