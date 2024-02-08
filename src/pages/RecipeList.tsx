@@ -12,7 +12,7 @@ import {
   RecipeOtherType,
   RecipeType,
 } from "~/types/Recipe";
-import RecipeOtherCard from "~/components/RecipeOtherCard";
+import RecipeCardOther from "~/components/RecipeCardOther";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader = async () => {
@@ -40,13 +40,13 @@ const RecipeList: FC = () => {
   const AllRecipes = () => (
     <>
       <HeadingSmall>{`すべてのレシピ：${allRecipesWithTarget.length}件`}</HeadingSmall>
-      <VStack as="ul" alignItems="stretch">
+      <VStack as="ul" alignItems="stretch" gap="12px">
         {allRecipesWithTarget.map(({ recipe, target }) => (
           <Box key={recipe.id} as="li">
             {target === "original" ? (
               <RecipeCard recipe={recipe} />
             ) : (
-              <RecipeOtherCard recipe={recipe} />
+              <RecipeCardOther recipe={recipe} />
             )}
           </Box>
         ))}
@@ -69,13 +69,13 @@ const RecipeList: FC = () => {
           <>
             <HeadingSmall>{`${keyword}の検索結果`}</HeadingSmall>
             {filtered.length ? (
-              <VStack as="ul" alignItems="stretch">
+              <VStack as="ul" alignItems="stretch" gap="12px">
                 {filtered.map(({ recipe, target }) => (
                   <Box key={recipe.id} as="li">
                     {target === "original" ? (
                       <RecipeCard recipe={recipe} />
                     ) : (
-                      <RecipeOtherCard recipe={recipe} />
+                      <RecipeCardOther recipe={recipe} />
                     )}
                   </Box>
                 ))}

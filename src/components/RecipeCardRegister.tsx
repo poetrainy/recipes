@@ -9,6 +9,9 @@ const RecipeCardRegister: FC = () => (
     justifyContent="flex-start"
     gap="8px"
     fontWeight="bold"
+    _hover={{
+      textDecor: "underline",
+    }}
   >
     <Center
       bg="gray.200"
