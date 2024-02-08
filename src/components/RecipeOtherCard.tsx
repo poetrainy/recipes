@@ -1,12 +1,12 @@
 import { FC } from "react";
-import { Center, Image } from "@chakra-ui/react";
-import { RecipeType } from "~/types/Recipe";
-import { Link } from "react-router-dom";
+import { Center, Image, Link } from "@chakra-ui/react";
+import { RecipeOtherType } from "~/types/Recipe";
 
-const RecipeCard: FC<{ recipe: RecipeType }> = ({ recipe }) => (
+const RecipeOtherCard: FC<{ recipe: RecipeOtherType }> = ({ recipe }) => (
   <Center
     as={Link}
-    to={`/recipes/${recipe.id}`}
+    href={recipe.url}
+    target="_blank"
     justifyContent="flex-start"
     gap="8px"
     fontWeight="bold"
@@ -20,4 +20,4 @@ const RecipeCard: FC<{ recipe: RecipeType }> = ({ recipe }) => (
   </Center>
 );
 
-export default RecipeCard;
+export default RecipeOtherCard;

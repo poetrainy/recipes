@@ -1,22 +1,36 @@
-import { RecipeType } from "~/types/Recipe";
+import { RecipeWithTargetType } from "~/types/Recipe";
 
-export const filteredRecipes: (
-  recipes: RecipeType[],
+type RecipeWithTargetAndKeywordType = {
+  recipeWithTarget: RecipeWithTargetType;
+  keyword: string;
+};
+
+export const filteredRecipes = (
+  allRecipesWithTarget: RecipeWithTargetType[],
   q: string
-) => RecipeType[] = (recipes: RecipeType[], q: string) => {
-  const searchKeywordMap = recipes.map((recipe) => {
-    const joinedKeyword: string =
-      recipe.title +
-      recipe.ingredients.map((ingredient) => ingredient.ingredient).join("") +
-      recipe.keywords?.join("");
+) => {
+  const searchKeywordMap: RecipeWithTargetAndKeywordType[] =
+    allRecipesWithTarget.map((recipeWithTarget) => {
+      const { target, recipe } = recipeWithTarget;
 
-    return {
-      recipe: recipe,
-      keyword: joinedKeyword,
-    };
-  });
+      const joinedKeywordRecipes: string =
+        target === "original"
+          ? recipe.title +
+            recipe.ingredients
+              .map((ingredient) => ingredient.ingredient)
+              .join("") +
+            recipe.keywords?.join("")
+          : recipe.title + recipe.keywords?.join("");
+
+      return {
+        recipeWithTarget,
+        keyword: joinedKeywordRecipes,
+      };
+    });
 
   return searchKeywordMap
     .filter(({ keyword }) => keyword.includes(q))
-    .map(({ recipe }) => recipe);
+    .map(({ recipeWithTarget }) => {
+      return { ...recipeWithTarget };
+    }) satisfies RecipeWithTargetType[];
 };

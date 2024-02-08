@@ -1,23 +1,29 @@
-import { MicroCMSType } from "~/types/MicroCMS";
+import { MicroCMSImageType, MicroCMSType } from "~/types/MicroCMS";
 
-export type RecipeType = MicroCMSType & {
+export type RecipeBaseType = MicroCMSType & {
   title: string;
   genre: RecipeGenreType[];
-  quantity?: string;
-  ingredients: RecipeIngredientType[];
-  steps: RecipeStepType[];
-  image?: { url: string; width: number; height: number };
+  image?: MicroCMSImageType;
   keywords?: string[];
 };
 
-export type RecipeBeforePerseType = MicroCMSType & {
+export type RecipeBaseBeforePerseType = MicroCMSType & {
   title: string;
   genre: RecipeGenreType[];
+  image?: MicroCMSImageType;
+  keywords?: string;
+};
+
+export type RecipeType = RecipeBaseType & {
+  quantity?: string;
+  ingredients: RecipeIngredientType[];
+  steps: RecipeStepType[];
+};
+
+export type RecipeBeforePerseType = RecipeBaseBeforePerseType & {
   quantity?: string;
   ingredients: string;
   steps: string;
-  image?: { url: string; width: number; height: number };
-  keywords?: string;
 };
 
 export type RecipeSaveType = {
@@ -41,3 +47,21 @@ export type RecipeStepType = {
   id: number;
   description: string;
 };
+
+export type RecipeOtherType = RecipeBaseType & {
+  url: string;
+};
+
+export type RecipeOtherBeforePerseType = RecipeBaseBeforePerseType & {
+  url: string;
+};
+
+export type RecipeWithTargetType =
+  | {
+      recipe: RecipeType;
+      target: "original";
+    }
+  | {
+      recipe: RecipeOtherType;
+      target: "other";
+    };

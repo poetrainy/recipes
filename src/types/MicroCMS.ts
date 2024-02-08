@@ -5,3 +5,9 @@ export type MicroCMSType = {
   publishedAt: string;
   revisedAt: string;
 };
+
+export type MicroCMSImageType = {
+  url: string;
+  width: number;
+  height: number;
+};

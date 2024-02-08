@@ -2,6 +2,8 @@ import { WriteApiRequestResult } from "microcms-js-sdk";
 import { client } from "~/libs/client";
 import {
   RecipeBeforePerseType,
+  RecipeOtherBeforePerseType,
+  RecipeOtherType,
   RecipeSaveType,
   RecipeType,
 } from "~/types/Recipe";
@@ -78,4 +80,27 @@ export const deleteRecipe = async (id: string) => {
     endpoint: "recipes",
     contentId: id,
   });
+};
+
+export const getAllOtherRecipes: () => Promise<
+  RecipeOtherType[]
+> = async () => {
+  const response = (
+    await client.get({
+      endpoint: "urls",
+      queries: {
+        offset: 0,
+        limit: 100,
+      },
+    })
+  ).contents as RecipeOtherBeforePerseType[];
+
+  const parsedResponse = response.map((recipe) => {
+    return {
+      ...recipe,
+      keywords: recipe.keywords ? JSON.parse(recipe.keywords) : undefined,
+    };
+  }) as RecipeOtherType[];
+
+  return parsedResponse;
 };

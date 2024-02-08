@@ -1,33 +1,53 @@
 import { ChangeEvent, FC, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Box, Input, Text, VStack } from "@chakra-ui/react";
-import { getAllRecipes } from "~/api/recipe";
+import { getAllOtherRecipes, getAllRecipes } from "~/api/recipe";
 import HeadingSmall from "~/components/HeadingSmall";
 import RecipeCard from "~/components/RecipeCard";
 import { filteredRecipes } from "~/libs/filteredRecipes";
 import { LoaderData } from "~/types";
 import RecipeCardRegister from "~/components/RecipeCardRegister";
+import {
+  RecipeWithTargetType,
+  RecipeOtherType,
+  RecipeType,
+} from "~/types/Recipe";
+import RecipeOtherCard from "~/components/RecipeOtherCard";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const loader = async () => {
   const recipes = await getAllRecipes();
+  const otherRecipes = await getAllOtherRecipes();
 
-  return { recipes };
+  const allRecipesWithTarget: RecipeWithTargetType[] = [
+    ...recipes.map((recipe: RecipeType) => {
+      return { recipe, target: "original" as const };
+    }),
+    ...otherRecipes.map((recipe: RecipeOtherType) => {
+      return { recipe, target: "other" as const };
+    }),
+  ];
+
+  return { allRecipesWithTarget };
 };
 
 const RecipeList: FC = () => {
-  const { recipes } = useLoaderData() as LoaderData<typeof loader>;
+  const { allRecipesWithTarget } = useLoaderData() as LoaderData<typeof loader>;
 
   const [keyword, setKeyword] = useState<string>("");
-  const filtered = filteredRecipes(recipes, keyword);
+  const filtered = filteredRecipes(allRecipesWithTarget, keyword);
 
   const AllRecipes = () => (
     <>
-      <HeadingSmall>{`すべてのレシピ：${recipes.length}件`}</HeadingSmall>
+      <HeadingSmall>{`すべてのレシピ：${allRecipesWithTarget.length}件`}</HeadingSmall>
       <VStack as="ul" alignItems="stretch">
-        {recipes.map((recipe) => (
+        {allRecipesWithTarget.map(({ recipe, target }) => (
           <Box key={recipe.id} as="li">
-            <RecipeCard recipe={recipe} />
+            {target === "original" ? (
+              <RecipeCard recipe={recipe} />
+            ) : (
+              <RecipeOtherCard recipe={recipe} />
+            )}
           </Box>
         ))}
         <RecipeCardRegister />
@@ -50,9 +70,13 @@ const RecipeList: FC = () => {
             <HeadingSmall>{`${keyword}の検索結果`}</HeadingSmall>
             {filtered.length ? (
               <VStack as="ul" alignItems="stretch">
-                {filtered.map((recipe) => (
+                {filtered.map(({ recipe, target }) => (
                   <Box key={recipe.id} as="li">
-                    <RecipeCard recipe={recipe} />
+                    {target === "original" ? (
+                      <RecipeCard recipe={recipe} />
+                    ) : (
+                      <RecipeOtherCard recipe={recipe} />
+                    )}
                   </Box>
                 ))}
               </VStack>
