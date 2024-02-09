@@ -3,7 +3,7 @@
   "name": "recipes",
   "icons": [
     {
-      "src": "/app-icon-512x512.png",
+      "src": "/src/assets/icons/app-icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
